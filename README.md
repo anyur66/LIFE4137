@@ -289,7 +289,203 @@ bcftools consensus -f AL1G64410_reference.fasta tetraploids_AL1G64410.vcf.gz -o 
 
 ```
 
-AL5G32850
+```shell
+	### 提取内含子
+	gtf2bed < arenosa_cochlearia_overlapping_genes.gff > output.bed
+	
+	awk '$3 == "exon"' arenosa_cochlearia_overlapping_genes.gff > exons.gtf
+	
+	
+	
+	arenosa_cochlearia_overlapping_genes.gff.gz
+	zcat arenosa_cochlearia_overlapping_genes.gff.gz | awk '$3 == "exon" && $9 ~ /ID=AL1G64410/ {print $1, $4-1, $5}' | sort -k1,1 -k2,2n > AL1G64410_exons.bed
+    
+    
+  zcat arenosa_cochlearia_overlapping_genes.gff.gz | awk 'BEGIN{OFS="\t";} $3=="exon" {print $1,$4-1,$5}' | sort -k1,1 -k2,2n| bedtools merge > exon.sort.bedtools.merge.bed
+```
+
+```shell
+grep AL5G32850 arenosa_cochlearia_overlapping_genes.gff
+
+samtools faidx alygenomes.fasta scaffold_5:16009975-16013329 > AL5G32850_reference.fasta
+
+gatk CreateSequenceDictionary -R AL1G64410_reference.fasta -O AL5G32850_reference.dict
+### diploids
+gatk SelectVariants -R alygenomes.fasta -V scaffold_5_genes.vcf.gz -O diplods_AL5G32850.vcf.gz --restrict-alleles-to BIALLELIC -select "AF>0.5" -sn BEL_01da -sn BEL_02da -sn BEL_03da -sn BEL_04da -sn BEL_05da -sn BEL_06da -sn BEL_07da -sn BEL_08da -sn BIH_01da -sn BIH_02da -sn BIH_03da -sn BIH_04da -sn BIH_05da -sn BIH_06da -sn BIH_07da -sn BIH_08da -sn PRE_01da -sn PRE_02da -sn PRE_03da -sn PRE_04da -sn PRE_05da -sn PRE_06da -sn PRE_07da -sn PRE_08da -sn RZA_01da -sn RZA_02da -sn RZA_03da -sn RZA_04da -sn RZA_05da -sn RZA_06da -sn RZA_07da -sn RZA_08da -sn RZA_09da -sn SNO_01da -sn SNO_02da -sn SNO_03da -sn SNO_04da -sn SNO_05da -sn SNO_06da -sn FOJ_01da -sn FOJ_02da -sn FOJ_03da -sn FOJ_04da -sn FOJ_05da -sn FOJ_06da -sn FOJ_07da -sn FOJ_08da -sn GOR_01da -sn GOR_02da -sn GOR_03da -sn GOR_04da -sn GOR_05da -sn GOR_06da -sn GOR_07da -sn GOR_08da -sn HNE_01da -sn HNE_02da -sn HNE_03da -sn HNE_04da -sn HNE_05da -sn HNE_06da -sn HNE_07da -sn SNO_01da -sn SNO_02da -sn SNO_03da -sn SNO_04da -sn SNO_05da -sn SNO_06da -sn SZI_01da -sn SZI_02da -sn SZI_03da -sn SZI_04da -sn SZI_05da -sn HNE_01da -sn HNE_02da -sn HNE_03da -sn HNE_04da -sn HNE_05da -sn HNE_06da -sn HNE_07da -sn HNI_01da -sn HNI_02da -sn HNI_03da -sn HNI_04da -sn KZL_01da -sn KZL_02da -sn KZL_03da -sn KZL_04da -sn KZL_05da -sn TRE_01ta -sn TRE_02ta -sn TRE_03ta -sn TRE_04ta -sn TRE_05ta -sn TRE_06ta -sn TRE_07ta -sn TRE_08ta -sn VEL_01da -sn VEL_02da -sn VEL_03da -sn VEL_04da -sn VEL_05da -sn VEL_06da -sn VEL_07da -sn VEL_08da -sn VEL_09da -sn VID_01da -sn VID_02da -sn VID_03da -sn VID_04da -sn VID_05da -sn VID_06da -sn VID_07da -sn VID_08da -sn MIE_02da -sn MIE_03da -sn MIE_04da -sn MIE_05da -sn MIE_06da -sn MIE_07da -sn MIE_08da -sn MIE_09da -sn MIE_10da	 -sn MIE_11da -sn PRE_01da -sn PRE_02da -sn PRE_03da -sn PRE_04da -sn PRE_05da -sn PRE_06da -sn PRE_07da -sn PRE_08da
+
+bcftools consensus -f AL5G32850_reference.fasta diplods_AL5G32850.vcf.gz -o diploids_AL5G32850.vcf.gz.fasta
+# Applied 16 variants
+
+### tetraploids
+gatk SelectVariants -R alygenomes.fasta -V scaffold_5_genes.vcf.gz -O tetraploids_AL5G32850.vcf.gz --restrict-alleles-to BIALLELIC -select "AF>0.5" -sn BGS_01ta -sn BGS_02ta -sn BGS_03ta -sn BGS_04ta -sn BGS_05ta -sn BGS_06ta -sn BGS_07ta -sn BGS_08ta -sn CHO_01ta -sn CHO_02ta -sn CHO_03ta -sn CHO_04ta -sn CHO_05ta -sn CHO_06ta -sn CHO_07ta -sn CHO_08ta -sn RFT_01ta -sn RFT_02ta -sn RFT_03ta -sn RFT_04ta -sn RFT_05ta -sn RFT_06ta -sn RFT_07ta -sn RFT_08ta -sn RFT_09ta -sn RFT_10ta -sn RFT_11ta -sn SCH_01ta -sn SCH_02ta -sn SCH_03ta -sn SCH_04ta -sn SCH_05ta -sn SCH_06ta -sn SCH_07ta -sn DRA_01ta -sn DRA_02ta -sn DRA_03ta -sn DRA_04ta -sn DRA_05ta -sn DRA_06ta -sn DRA_07ta -sn DRA_08ta -sn GUL_01ta -sn GUL_02ta -sn GUL_03ta -sn GUL_04ta -sn GUL_05ta -sn GUL_06ta -sn GUL_07ta -sn GUL_08ta -sn GUL_09ta -sn GUL_10ta -sn GUL_11ta -sn GUL_12ta -sn GUL_13ta -sn GUL_14ta -sn GUL_15ta -sn GUL_16ta -sn GUL_17ta -sn GUL_18ta -sn GUL_19ta -sn HAR_01ta -sn HAR_02ta -sn SPI_01ta -sn SPI_02ta -sn SPI_03ta -sn SPI_04ta -sn SPI_05ta -sn SPI_06ta -sn SPI_07ta -sn SPI_08ta -sn SPI_09ta -sn SPI_10ta -sn SPI_11ta -sn SPI_12ta -sn SPI_13ta -sn STE_01ta -sn STE_02ta -sn STE_03ta -sn STE_04ta -sn STE_05ta -sn STE_06ta -sn STE_07ta -sn STE_08ta -sn SWA_01ta -sn SWA_02ta -sn SWA_03ta -sn SWA_04ta -sn SWA_05ta -sn SWA_06ta -sn SWA_07ta -sn SWA_08ta -sn SWA_09ta -sn SWA_10ta -sn TBG_01ta -sn TBG_02ta -sn TBG_03ta -sn TBG_04ta -sn TBG_05ta -sn TBG_06ta -sn TKO_01ta -sn TKO_02ta -sn TKO_03ta -sn TKO_04ta -sn TKO_05ta -sn TKO_06ta -sn TKO_07ta -sn TKO_08ta -sn HOC_01ta -sn HOC_02ta -sn HOC_03ta -sn HOC_04ta -sn HOC_05ta -sn HOC_06ta -sn HOC_07ta -sn HOC_08ta -sn KAS_01ta -sn KAS_02ta -sn KAS_03ta -sn KAS_04ta -sn KAS_05ta -sn KAS_06ta -sn KAS_07ta -sn KAS_08ta -sn KOS_01ta -sn KOS_02ta -sn KOS_03ta -sn KOS_04ta -sn KOS_05ta -sn KOS_06ta -sn KOS_07ta -sn KOW_02ta -sn KOW_03ta -sn KOW_04ta -sn KOW_05ta -sn KOW_06ta -sn KOW_07ta -sn KOW_08ta -sn TKO_01ta -sn TKO_02ta -sn TKO_03ta -sn TKO_04ta -sn TKO_05ta -sn TKO_06ta -sn TKO_07ta -sn TKO_08ta -sn TRE_01ta -sn TRE_02ta -sn TRE_03ta -sn TRE_04ta -sn TRE_05ta -sn TRE_06ta -sn TRE_07ta -sn TRE_08ta -sn TRT_01ta -sn TRT_02ta -sn TRT_03ta -sn TRT_04ta -sn TRT_05ta -sn TRT_06ta -sn TRT_07ta -sn TRT_08ta -sn TRT_09ta -sn TZI_01ta -sn TZI_02ta -sn TZI_03ta -sn TZI_04ta -sn TZI_05ta -sn TZI_06ta -sn TZI_07ta -sn TZI_08ta -sn TZI_09ta -sn TZI_10ta -sn LAC_01ta -sn LAC_02ta -sn LAC_03ta -sn LAC_04ta -sn LAC_05ta -sn LAC_06ta -sn LAC_07ta -sn LAC_08ta -sn WEK_01ta -sn WEK_02ta -sn WEK_03ta -sn WEK_04ta -sn WEK_05ta -sn WEK_06ta -sn WEK_07ta -sn WEK_08ta -sn ZAP_01ta -sn ZAP_02ta -sn ZAP_03ta -sn ZAP_04ta -sn ZAP_05ta -sn ZAP_06ta -sn ZAP_07ta -sn ZAP_08ta
+
+bcftools consensus -f AL5G32850_reference.fasta tetraploids_AL5G32850.vcf.gz -o tetraploids_AL5G32850.vcf.gz.fasta
+# Applied 16 variants
+```
+
+
+
+```shell
+## AL5G32860
+
+grep AL5G32860 arenosa_cochlearia_overlapping_genes.gff
+
+samtools faidx alygenomes.fasta scaffold_5:16014097-16016009 > AL5G32860_reference.fasta
+
+gatk CreateSequenceDictionary -R AL5G32860_reference.fasta -O AL5G32860_reference.dict
+
+### diploids
+gatk SelectVariants -R alygenomes.fasta -V scaffold_5_genes.vcf.gz -O diplods_AL5G32860.vcf.gz --restrict-alleles-to BIALLELIC -select "AF>0.5" -sn BEL_01da -sn BEL_02da -sn BEL_03da -sn BEL_04da -sn BEL_05da -sn BEL_06da -sn BEL_07da -sn BEL_08da -sn BIH_01da -sn BIH_02da -sn BIH_03da -sn BIH_04da -sn BIH_05da -sn BIH_06da -sn BIH_07da -sn BIH_08da -sn PRE_01da -sn PRE_02da -sn PRE_03da -sn PRE_04da -sn PRE_05da -sn PRE_06da -sn PRE_07da -sn PRE_08da -sn RZA_01da -sn RZA_02da -sn RZA_03da -sn RZA_04da -sn RZA_05da -sn RZA_06da -sn RZA_07da -sn RZA_08da -sn RZA_09da -sn SNO_01da -sn SNO_02da -sn SNO_03da -sn SNO_04da -sn SNO_05da -sn SNO_06da -sn FOJ_01da -sn FOJ_02da -sn FOJ_03da -sn FOJ_04da -sn FOJ_05da -sn FOJ_06da -sn FOJ_07da -sn FOJ_08da -sn GOR_01da -sn GOR_02da -sn GOR_03da -sn GOR_04da -sn GOR_05da -sn GOR_06da -sn GOR_07da -sn GOR_08da -sn HNE_01da -sn HNE_02da -sn HNE_03da -sn HNE_04da -sn HNE_05da -sn HNE_06da -sn HNE_07da -sn SNO_01da -sn SNO_02da -sn SNO_03da -sn SNO_04da -sn SNO_05da -sn SNO_06da -sn SZI_01da -sn SZI_02da -sn SZI_03da -sn SZI_04da -sn SZI_05da -sn HNE_01da -sn HNE_02da -sn HNE_03da -sn HNE_04da -sn HNE_05da -sn HNE_06da -sn HNE_07da -sn HNI_01da -sn HNI_02da -sn HNI_03da -sn HNI_04da -sn KZL_01da -sn KZL_02da -sn KZL_03da -sn KZL_04da -sn KZL_05da -sn TRE_01ta -sn TRE_02ta -sn TRE_03ta -sn TRE_04ta -sn TRE_05ta -sn TRE_06ta -sn TRE_07ta -sn TRE_08ta -sn VEL_01da -sn VEL_02da -sn VEL_03da -sn VEL_04da -sn VEL_05da -sn VEL_06da -sn VEL_07da -sn VEL_08da -sn VEL_09da -sn VID_01da -sn VID_02da -sn VID_03da -sn VID_04da -sn VID_05da -sn VID_06da -sn VID_07da -sn VID_08da -sn MIE_02da -sn MIE_03da -sn MIE_04da -sn MIE_05da -sn MIE_06da -sn MIE_07da -sn MIE_08da -sn MIE_09da -sn MIE_10da	 -sn MIE_11da -sn PRE_01da -sn PRE_02da -sn PRE_03da -sn PRE_04da -sn PRE_05da -sn PRE_06da -sn PRE_07da -sn PRE_08da
+
+bcftools consensus -f AL5G32860_reference.fasta diplods_AL5G32860.vcf.gz -o diploids_AL5G.vcf.gz.fasta
+## Applied 16 variants
+### tetraploids
+gatk SelectVariants -R alygenomes.fasta -V scaffold_5_genes.vcf.gz -O tetraploids_AL5G32860.vcf.gz --restrict-alleles-to BIALLELIC -select "AF>0.5" -sn BGS_01ta -sn BGS_02ta -sn BGS_03ta -sn BGS_04ta -sn BGS_05ta -sn BGS_06ta -sn BGS_07ta -sn BGS_08ta -sn CHO_01ta -sn CHO_02ta -sn CHO_03ta -sn CHO_04ta -sn CHO_05ta -sn CHO_06ta -sn CHO_07ta -sn CHO_08ta -sn RFT_01ta -sn RFT_02ta -sn RFT_03ta -sn RFT_04ta -sn RFT_05ta -sn RFT_06ta -sn RFT_07ta -sn RFT_08ta -sn RFT_09ta -sn RFT_10ta -sn RFT_11ta -sn SCH_01ta -sn SCH_02ta -sn SCH_03ta -sn SCH_04ta -sn SCH_05ta -sn SCH_06ta -sn SCH_07ta -sn DRA_01ta -sn DRA_02ta -sn DRA_03ta -sn DRA_04ta -sn DRA_05ta -sn DRA_06ta -sn DRA_07ta -sn DRA_08ta -sn GUL_01ta -sn GUL_02ta -sn GUL_03ta -sn GUL_04ta -sn GUL_05ta -sn GUL_06ta -sn GUL_07ta -sn GUL_08ta -sn GUL_09ta -sn GUL_10ta -sn GUL_11ta -sn GUL_12ta -sn GUL_13ta -sn GUL_14ta -sn GUL_15ta -sn GUL_16ta -sn GUL_17ta -sn GUL_18ta -sn GUL_19ta -sn HAR_01ta -sn HAR_02ta -sn SPI_01ta -sn SPI_02ta -sn SPI_03ta -sn SPI_04ta -sn SPI_05ta -sn SPI_06ta -sn SPI_07ta -sn SPI_08ta -sn SPI_09ta -sn SPI_10ta -sn SPI_11ta -sn SPI_12ta -sn SPI_13ta -sn STE_01ta -sn STE_02ta -sn STE_03ta -sn STE_04ta -sn STE_05ta -sn STE_06ta -sn STE_07ta -sn STE_08ta -sn SWA_01ta -sn SWA_02ta -sn SWA_03ta -sn SWA_04ta -sn SWA_05ta -sn SWA_06ta -sn SWA_07ta -sn SWA_08ta -sn SWA_09ta -sn SWA_10ta -sn TBG_01ta -sn TBG_02ta -sn TBG_03ta -sn TBG_04ta -sn TBG_05ta -sn TBG_06ta -sn TKO_01ta -sn TKO_02ta -sn TKO_03ta -sn TKO_04ta -sn TKO_05ta -sn TKO_06ta -sn TKO_07ta -sn TKO_08ta -sn HOC_01ta -sn HOC_02ta -sn HOC_03ta -sn HOC_04ta -sn HOC_05ta -sn HOC_06ta -sn HOC_07ta -sn HOC_08ta -sn KAS_01ta -sn KAS_02ta -sn KAS_03ta -sn KAS_04ta -sn KAS_05ta -sn KAS_06ta -sn KAS_07ta -sn KAS_08ta -sn KOS_01ta -sn KOS_02ta -sn KOS_03ta -sn KOS_04ta -sn KOS_05ta -sn KOS_06ta -sn KOS_07ta -sn KOW_02ta -sn KOW_03ta -sn KOW_04ta -sn KOW_05ta -sn KOW_06ta -sn KOW_07ta -sn KOW_08ta -sn TKO_01ta -sn TKO_02ta -sn TKO_03ta -sn TKO_04ta -sn TKO_05ta -sn TKO_06ta -sn TKO_07ta -sn TKO_08ta -sn TRE_01ta -sn TRE_02ta -sn TRE_03ta -sn TRE_04ta -sn TRE_05ta -sn TRE_06ta -sn TRE_07ta -sn TRE_08ta -sn TRT_01ta -sn TRT_02ta -sn TRT_03ta -sn TRT_04ta -sn TRT_05ta -sn TRT_06ta -sn TRT_07ta -sn TRT_08ta -sn TRT_09ta -sn TZI_01ta -sn TZI_02ta -sn TZI_03ta -sn TZI_04ta -sn TZI_05ta -sn TZI_06ta -sn TZI_07ta -sn TZI_08ta -sn TZI_09ta -sn TZI_10ta -sn LAC_01ta -sn LAC_02ta -sn LAC_03ta -sn LAC_04ta -sn LAC_05ta -sn LAC_06ta -sn LAC_07ta -sn LAC_08ta -sn WEK_01ta -sn WEK_02ta -sn WEK_03ta -sn WEK_04ta -sn WEK_05ta -sn WEK_06ta -sn WEK_07ta -sn WEK_08ta -sn ZAP_01ta -sn ZAP_02ta -sn ZAP_03ta -sn ZAP_04ta -sn ZAP_05ta -sn ZAP_06ta -sn ZAP_07ta -sn ZAP_08ta
+
+bcftools consensus -f AL5G32860_reference.fasta tetraploids_AL5G32860.vcf.gz -o tetraploids_AL5G32860.vcf.gz.fasta
+# Applied 27 variants
+```
+
+```shell
+### AL8G14450
+grep AL8G14450 arenosa_cochlearia_overlapping_genes.gff
+
+samtools faidx alygenomes.fasta scaffold_8:2785543-2789170 > AL8G14450_reference.fasta
+
+gatk CreateSequenceDictionary -R AL8G14450_reference.fasta -O AL8G14450_reference.dict
+
+### diploids
+gatk SelectVariants -R alygenomes.fasta -V scaffold_8_genes.vcf.gz -O diplods_AL8G14450.vcf.gz --restrict-alleles-to BIALLELIC -select "AF>0.5" -sn BEL_01da -sn BEL_02da -sn BEL_03da -sn BEL_04da -sn BEL_05da -sn BEL_06da -sn BEL_07da -sn BEL_08da -sn BIH_01da -sn BIH_02da -sn BIH_03da -sn BIH_04da -sn BIH_05da -sn BIH_06da -sn BIH_07da -sn BIH_08da -sn PRE_01da -sn PRE_02da -sn PRE_03da -sn PRE_04da -sn PRE_05da -sn PRE_06da -sn PRE_07da -sn PRE_08da -sn RZA_01da -sn RZA_02da -sn RZA_03da -sn RZA_04da -sn RZA_05da -sn RZA_06da -sn RZA_07da -sn RZA_08da -sn RZA_09da -sn SNO_01da -sn SNO_02da -sn SNO_03da -sn SNO_04da -sn SNO_05da -sn SNO_06da -sn FOJ_01da -sn FOJ_02da -sn FOJ_03da -sn FOJ_04da -sn FOJ_05da -sn FOJ_06da -sn FOJ_07da -sn FOJ_08da -sn GOR_01da -sn GOR_02da -sn GOR_03da -sn GOR_04da -sn GOR_05da -sn GOR_06da -sn GOR_07da -sn GOR_08da -sn HNE_01da -sn HNE_02da -sn HNE_03da -sn HNE_04da -sn HNE_05da -sn HNE_06da -sn HNE_07da -sn SNO_01da -sn SNO_02da -sn SNO_03da -sn SNO_04da -sn SNO_05da -sn SNO_06da -sn SZI_01da -sn SZI_02da -sn SZI_03da -sn SZI_04da -sn SZI_05da -sn HNE_01da -sn HNE_02da -sn HNE_03da -sn HNE_04da -sn HNE_05da -sn HNE_06da -sn HNE_07da -sn HNI_01da -sn HNI_02da -sn HNI_03da -sn HNI_04da -sn KZL_01da -sn KZL_02da -sn KZL_03da -sn KZL_04da -sn KZL_05da -sn TRE_01ta -sn TRE_02ta -sn TRE_03ta -sn TRE_04ta -sn TRE_05ta -sn TRE_06ta -sn TRE_07ta -sn TRE_08ta -sn VEL_01da -sn VEL_02da -sn VEL_03da -sn VEL_04da -sn VEL_05da -sn VEL_06da -sn VEL_07da -sn VEL_08da -sn VEL_09da -sn VID_01da -sn VID_02da -sn VID_03da -sn VID_04da -sn VID_05da -sn VID_06da -sn VID_07da -sn VID_08da -sn MIE_02da -sn MIE_03da -sn MIE_04da -sn MIE_05da -sn MIE_06da -sn MIE_07da -sn MIE_08da -sn MIE_09da -sn MIE_10da	 -sn MIE_11da -sn PRE_01da -sn PRE_02da -sn PRE_03da -sn PRE_04da -sn PRE_05da -sn PRE_06da -sn PRE_07da -sn PRE_08da
+
+bcftools consensus -f AL8G14450_reference.fasta diplods_AL8G14450.vcf.gz -o diploids_AL8G14450.vcf.gz.fasta
+# Applied 5 variants
+
+### tetraploids
+gatk SelectVariants -R alygenomes.fasta -V scaffold_8_genes.vcf.gz -O tetraploids_AL8G14450.vcf.gz --restrict-alleles-to BIALLELIC -select "AF>0.5" -sn BGS_01ta -sn BGS_02ta -sn BGS_03ta -sn BGS_04ta -sn BGS_05ta -sn BGS_06ta -sn BGS_07ta -sn BGS_08ta -sn CHO_01ta -sn CHO_02ta -sn CHO_03ta -sn CHO_04ta -sn CHO_05ta -sn CHO_06ta -sn CHO_07ta -sn CHO_08ta -sn RFT_01ta -sn RFT_02ta -sn RFT_03ta -sn RFT_04ta -sn RFT_05ta -sn RFT_06ta -sn RFT_07ta -sn RFT_08ta -sn RFT_09ta -sn RFT_10ta -sn RFT_11ta -sn SCH_01ta -sn SCH_02ta -sn SCH_03ta -sn SCH_04ta -sn SCH_05ta -sn SCH_06ta -sn SCH_07ta -sn DRA_01ta -sn DRA_02ta -sn DRA_03ta -sn DRA_04ta -sn DRA_05ta -sn DRA_06ta -sn DRA_07ta -sn DRA_08ta -sn GUL_01ta -sn GUL_02ta -sn GUL_03ta -sn GUL_04ta -sn GUL_05ta -sn GUL_06ta -sn GUL_07ta -sn GUL_08ta -sn GUL_09ta -sn GUL_10ta -sn GUL_11ta -sn GUL_12ta -sn GUL_13ta -sn GUL_14ta -sn GUL_15ta -sn GUL_16ta -sn GUL_17ta -sn GUL_18ta -sn GUL_19ta -sn HAR_01ta -sn HAR_02ta -sn SPI_01ta -sn SPI_02ta -sn SPI_03ta -sn SPI_04ta -sn SPI_05ta -sn SPI_06ta -sn SPI_07ta -sn SPI_08ta -sn SPI_09ta -sn SPI_10ta -sn SPI_11ta -sn SPI_12ta -sn SPI_13ta -sn STE_01ta -sn STE_02ta -sn STE_03ta -sn STE_04ta -sn STE_05ta -sn STE_06ta -sn STE_07ta -sn STE_08ta -sn SWA_01ta -sn SWA_02ta -sn SWA_03ta -sn SWA_04ta -sn SWA_05ta -sn SWA_06ta -sn SWA_07ta -sn SWA_08ta -sn SWA_09ta -sn SWA_10ta -sn TBG_01ta -sn TBG_02ta -sn TBG_03ta -sn TBG_04ta -sn TBG_05ta -sn TBG_06ta -sn TKO_01ta -sn TKO_02ta -sn TKO_03ta -sn TKO_04ta -sn TKO_05ta -sn TKO_06ta -sn TKO_07ta -sn TKO_08ta -sn HOC_01ta -sn HOC_02ta -sn HOC_03ta -sn HOC_04ta -sn HOC_05ta -sn HOC_06ta -sn HOC_07ta -sn HOC_08ta -sn KAS_01ta -sn KAS_02ta -sn KAS_03ta -sn KAS_04ta -sn KAS_05ta -sn KAS_06ta -sn KAS_07ta -sn KAS_08ta -sn KOS_01ta -sn KOS_02ta -sn KOS_03ta -sn KOS_04ta -sn KOS_05ta -sn KOS_06ta -sn KOS_07ta -sn KOW_02ta -sn KOW_03ta -sn KOW_04ta -sn KOW_05ta -sn KOW_06ta -sn KOW_07ta -sn KOW_08ta -sn TKO_01ta -sn TKO_02ta -sn TKO_03ta -sn TKO_04ta -sn TKO_05ta -sn TKO_06ta -sn TKO_07ta -sn TKO_08ta -sn TRE_01ta -sn TRE_02ta -sn TRE_03ta -sn TRE_04ta -sn TRE_05ta -sn TRE_06ta -sn TRE_07ta -sn TRE_08ta -sn TRT_01ta -sn TRT_02ta -sn TRT_03ta -sn TRT_04ta -sn TRT_05ta -sn TRT_06ta -sn TRT_07ta -sn TRT_08ta -sn TRT_09ta -sn TZI_01ta -sn TZI_02ta -sn TZI_03ta -sn TZI_04ta -sn TZI_05ta -sn TZI_06ta -sn TZI_07ta -sn TZI_08ta -sn TZI_09ta -sn TZI_10ta -sn LAC_01ta -sn LAC_02ta -sn LAC_03ta -sn LAC_04ta -sn LAC_05ta -sn LAC_06ta -sn LAC_07ta -sn LAC_08ta -sn WEK_01ta -sn WEK_02ta -sn WEK_03ta -sn WEK_04ta -sn WEK_05ta -sn WEK_06ta -sn WEK_07ta -sn WEK_08ta -sn ZAP_01ta -sn ZAP_02ta -sn ZAP_03ta -sn ZAP_04ta -sn ZAP_05ta -sn ZAP_06ta -sn ZAP_07ta -sn ZAP_08ta
+
+bcftools consensus -f AL8G14450_reference.fasta tetraploids_AL8G14450.vcf.gz -o tetraploids_AL8G14450.vcf.gz.fasta
+# Applied 6 variants
+```
+
+
+
+
+
+
+
+
+
+**PyMOL代码**
+
+```shell
+color sand, (model diploids_g32048.t1 and resi 218:324) 
+align cochlearia_diploids__g35052.t1,cochlearia_tetraploids_g35052.t1
+color blue, (cochlearia_diploids__g35052.t1)
+color marine, (cochlearia_tetraploids_g35052.t1)
+select domain1, cochlearia_diploids__g35052.t1 and resi 42-131
+show cartoon, domain1
+color red, domain1
+```
+
+```shell
+## PyMOL标注突变残基
+select mutation_residue, diploids_g54384.t1 and resi 70+81+82+83+244+784+823+993+1029
+
+
+
+color red, mutation_residue
+
+show sticks, mutation_residue
+
+select malectin_domain, diploids_g54384.t1 and resi 427-613
+select Protein_kinase_domain, diploids_g54384.t1 and resi 694-960
+```
+
+```shell
+color sand, (model diploids_g54384.t1 and resi 218:324)
+select malectin_domain, diploids_g54384.t1 and resi 427-613
+
+select Protein_kinase_domain, diploids_g54384.t1 and resi 694-960
+show sticks, malectin_domain
+```
+
+
+
+```shell
+color lime, (model diploids_g54384.t1 and resi 627-613)
+color sand, (model diploids_g54384.t1 and resi 694-960)
+
+color lime, (model tetraploid_g54384.t1 and resi 423-609)
+color sand, (model tetraploid_g54384.t1 and resi 690-954)
+
+color sand, (model arenosa_diploids_AL1G64410 and resi 307-551)
+color sand, (model arenosa_tetraploids_AL1G64410 and resi 308-615)
+
+select mutation_residue, tetraploid_g54384.t1 and resi 419+628+711
+color red, mutation_residue
+show sticks, mutation_residue
+select mutation_residue2, diploids_g54384.t1 and resi 703
+color red, mutation_residue2
+show sticks, mutation_residue2
+```
+
+```shell
+color violet, (model cochlearia_diploids__g35052.t1 and resi 43-131)
+color pink, (model cochlearia_tetraploids_g35052.t1 and resi 42-130)
+select mutation_residue, cochlearia_diploids_g35052.t1and resi 10+11
+select mutation_residue2, cochlearia_tetraploids_g35052.t1 and resi 11
+
+
+```
+
+```shell
+color limon, (model cochlearia_diploids_g2417.t1 and resi 106-339)
+color limon, (model cochlearia_tetraploids_g2417.t1 and resi 103-335)
+color darksalmon, (model arenosa_diploids_AL5G32850 and resi 82-291)
+color darksalmon, (model arenosa_tetraploids_AL5G32850 and resi 82-291)
+
+select mutation_residue, cochlearia_diploids_g2417.t1 and resi 12+30+28+46+152+155+156+368
+select mutation_residue2, cochlearia_tetraploids_g2417.t1 and resi 152+155+156+260+358+359
+select mutation_residue3, arenosa_diploids_AL5G32850 and resi 9+10
+select mutation_residue4, arenosa_tetraploids_AL5G32850 and resi 10
+
+```
+
+
+
+```shell
+color wheat, (model diploids_g10577.t1 and resi 252-268)
+color sand, (model diploids_g10577.t1 and resi 299-377)
+color lightblue, (model diploids_g10577.t1 and resi 425-483)
+color lightpink, (model diploids_g10577.t1 and resi 485-661)
+color purple, (model diploids_g10577.t1 and resi 863-1104)
+
+```
+
+```shell
+color sand, (model diploids_g32048.t1 and resi 218-324)
+color purple, (model diploids_g32048.t1 and resi 387-485)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
